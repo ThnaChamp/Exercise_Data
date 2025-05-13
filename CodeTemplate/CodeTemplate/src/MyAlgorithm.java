@@ -85,11 +85,15 @@ public class MyAlgorithm extends Algorithm {
                 int i = Pair.first;
                 if (isVisited[i] == false) {
                     q.add(i);
-                    isVisited[i] = true;
+                    isVisited[i] = true;                                        
                 }
             }
         }
         return bfsList;
+    }
+
+    public int bfsDistance(GraphL graph, int startNode, int destNode){
+
     }
 
     public int floyd(GraphM graph, int startNode, int destNode) {
