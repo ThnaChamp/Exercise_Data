@@ -44,55 +44,55 @@ public class MyAlgorithm extends Algorithm {
     }
 
     private void postorderTraversal(BinNode node, List<Integer> postorderList) {
-        if (node == null) {
-            return;
-        }
-        postorderList.add(node.node);
         postorderTraversal(node.leftChild, postorderList);
         postorderTraversal(node.rightChild, postorderList);
+        postorderList.add(node.node);
     }
 
     public List<Integer> dfs(GraphM graph, int startNode) {
         boolean[] isVisited = new boolean[graph.numVertices];
-        List<Integer> dfsList = new ArrayList<>();
-        return dfsUtil(graph, startNode, isVisited, dfsList);
+        Arrays.fill(isVisited, false);
+        List<Integer> result = new ArrayList<>();
+        dfsUtil(graph, startNode, isVisited, result);
+        return result;
     }
 
-    private List<Integer> dfsUtil(GraphM graph, int startNode, boolean[] isVisited, List<Integer> dfsList) {
-        isVisited[startNode] = true; // เดินผ่าน startNode แล้ว
-        dfsList.add(startNode);
-        for (int i = 0; i < graph.numVertices; i++) {
-            if (graph.matrix[startNode][i] != 0 && !isVisited[i]) {
-                dfsUtil(graph, i, isVisited, dfsList);
-            }
-        }
-        return dfsList;
-    }
-
-    public List<Integer> bfs(GraphL graph, int startNode) {
-        boolean[] isVisited = new boolean[graph.numVertices + 1];
-        List<Integer> bfsList = new ArrayList<>();
-        Queue<Integer> q = new LinkedList<>();
-
-        q.add(startNode);
-        isVisited[startNode] = true;
-
-        while (!q.isEmpty()) {
-            int current = q.poll();
-            bfsList.add(current);
-            List<Pair<Integer, Integer>> neighbors = graph.adjacencyList.get(current);
-            for (Pair<Integer, Integer> Pair : neighbors) {
-                int i = Pair.first;
-                if (isVisited[i] == false) {
-                    q.add(i);
-                    isVisited[i] = true;                                        
+    private void dfsUtil(GraphM graph, int startNode, boolean[] isVisited, List<Integer> dfsList) {
+        if (!isVisited[startNode]) {
+            isVisited[startNode] = true;
+            dfsList.add(startNode);
+            for (int i = 0; i < graph.numVertices; i++) {
+                if (graph.matrix[startNode][i] == 0 && !isVisited[i]) {
+                    dfsUtil(graph, i, isVisited, dfsList);
                 }
             }
         }
-        return bfsList;
     }
 
-    public int bfsDistance(GraphL graph, int startNode, int destNode){
+    public List<Integer> bfs(GraphL graph, int startNode) {
+        boolean[] isVisited = new boolean[graph.numVertices];
+        List<Integer> result = new ArrayList<>();
+        Queue<Integer> q = new LinkedList<>();
+        isVisited[startNode] = true;
+        q.add(startNode);
+        while (!q.isEmpty()) {
+            int curNode = q.poll();
+            result.add(curNode);
+            List<Pair<Integer, Integer>> neighbors = graph.adjacencyList.get(curNode);
+            if (neighbors != null) {
+                for (Pair<Integer, Integer> Pair : neighbors) {
+                    int adj = Pair.first;
+                    if (!isVisited[adj]) {
+                        isVisited[adj] = true;
+                        q.add(adj);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public int bfsDistance(GraphL graph, int startNode, int destNode) {
 
     }
 
@@ -145,43 +145,6 @@ public class MyAlgorithm extends Algorithm {
             }
         }
         return reach[startNode][destNode];
-    }
-
-    public int dijkstra(GraphL graph, int startNode, int destNode) {
-        int[] minDist = new int[graph.numVertices + 1];
-        Arrays.fill(minDist, Integer.MAX_VALUE);
-        minDist[startNode] = 0;
-
-        Set<Integer> visitedSet = new HashSet<>();
-        PriorityQueue<Pair<Integer, Integer>> walker = new PriorityQueue<>();
-        walker.add(new Pair<>(0, startNode));
-
-        while (!walker.isEmpty()) {
-            int cumulativeDist = walker.peek().first;
-            int nodeNow = walker.poll().second;
-
-            if (visitedSet.contains(nodeNow)) {
-                continue;
-            }
-            visitedSet.add(nodeNow);
-
-            if (nodeNow == destNode) {
-                return cumulativeDist;
-            }
-
-            for (Pair<Integer, Integer> neighbor : graph.adjacencyList.get(nodeNow)) {
-                int nodeNext = neighbor.first;
-                int weightNext = neighbor.second;
-
-                if (!visitedSet.contains(nodeNext)
-                        && cumulativeDist + weightNext < minDist[nodeNext]) {
-                    minDist[nodeNext] = cumulativeDist + weightNext;
-                    walker.add(new Pair<>(minDist[nodeNext], nodeNext));
-                }
-            }
-        }
-
-        return -1;
     }
 
     public int dijkstra1(GraphL graph, int startNode, int destNode) {
