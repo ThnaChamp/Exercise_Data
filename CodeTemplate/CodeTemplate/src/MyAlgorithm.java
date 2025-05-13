@@ -120,6 +120,35 @@ public class MyAlgorithm extends Algorithm {
         return -1;
     }
 
+    public int bfsDistance1(GraphL graph, int startNode, int destNode) {
+        boolean[] isVisited = new boolean[graph.numVertices];
+        int[] dist = new int[graph.numVertices];
+        Queue<Integer> q = new LinkedList<>();
+        isVisited[startNode] = true;
+        dist[startNode] = 0;
+        q.add(startNode);
+
+        while (!q.isEmpty()) {
+            int curNode = q.poll();
+            List<Pair<Integer, Integer>> neighbors = graph.adjacencyList.get(curNode);
+            if (neighbors != null) {
+                for (Pair<Integer, Integer> Pair : neighbors) {
+                    int adj = Pair.first;
+                    int weight = Pair.second; // ดึง weight มาใช้
+                    if (!isVisited[adj]) {
+                        isVisited[adj] = true;
+                        dist[adj] = dist[curNode] + weight; // รวมระยะทางจริง
+                        if (adj == destNode) {
+                            return dist[destNode];
+                        }
+                        q.add(adj);
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+
     public int floyd(GraphM graph, int startNode, int destNode) {
         int[][] dist = new int[graph.numVertices][graph.numVertices];
         int inf = Integer.MAX_VALUE / 2;
