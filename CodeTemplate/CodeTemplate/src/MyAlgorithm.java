@@ -93,7 +93,38 @@ public class MyAlgorithm extends Algorithm {
     }
 
     public int bfsDistance(GraphL graph, int startNode, int destNode) {
+        if (startNode == destNode) {
+            return 0;
+        }
 
+        boolean[] isVisited = new boolean[graph.numVertices];
+        Queue<Integer> q = new LinkedList<>();
+        int[] distance = new int[graph.numVertices];
+
+        isVisited[startNode] = true;
+        distance[startNode] = 0;
+        q.add(startNode);
+
+        while (!q.isEmpty()) {
+            int curNode = q.poll();
+            List<Pair<Integer, Integer>> neighbors = graph.adjacencyList.get(curNode);
+            if (neighbors != null) {
+                for (Pair<Integer, Integer> pair : neighbors) {
+                    int adj = pair.first;
+                    if (!isVisited[adj]) {
+                        isVisited[adj] = true;
+                        distance[adj] = distance[curNode] + 1;
+                        if (adj == destNode) {
+                            return distance[adj];
+                        }
+                        q.add(adj);
+                    }
+                }
+            }
+        }
+
+        // ถ้าไปไม่ถึง destNode
+        return -1;
     }
 
     public int floyd(GraphM graph, int startNode, int destNode) {
