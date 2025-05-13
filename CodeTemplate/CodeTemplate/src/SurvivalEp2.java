@@ -15,8 +15,8 @@ public class SurvivalEp2 {
         int v = sc.nextInt();
         int z = sc.nextInt();
         MyAlgorithm myAl = new MyAlgorithm();
-        int sv = myAl.dijkstra1(graph, s, v);
-        int zv = myAl.dijkstra1(graph, z, v);
+        int sv = myAl.dijkstra(graph, s, v);
+        int zv = myAl.dijkstra(graph, z, v);
         System.out.println(sv <= zv ? "SAFE" : "TOO LATE");
     }
 }

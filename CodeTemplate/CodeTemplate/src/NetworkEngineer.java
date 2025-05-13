@@ -19,7 +19,7 @@ public class NetworkEngineer {
             int quality = 0;
             int si = sc.nextInt();
             for (int node : graph.adjacencyList.keySet()) {
-                int time = myAl.dijkstra1(graph, si, node);
+                int time = myAl.dijkstra(graph, si, node);
                 if (time > quality) {
                     quality = time;
                 }

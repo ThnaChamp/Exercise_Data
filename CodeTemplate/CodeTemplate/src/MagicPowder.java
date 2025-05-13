@@ -33,11 +33,11 @@ public class MagicPowder {
 
         int min = Integer.MAX_VALUE;
         for (int i = 0; i < leaf.size(); i++) {
-            int minCheck1 = myAl.dijkstra1(graph, center1, leaf.get(i));
+            int minCheck1 = myAl.dijkstra(graph, center1, leaf.get(i));
             if (minCheck1 < min) {
                 min = minCheck1;
             }
-            int minCheck2 = myAl.dijkstra1(graph, center2, leaf.get(i));
+            int minCheck2 = myAl.dijkstra(graph, center2, leaf.get(i));
             if (minCheck2 < min) {
                 min = minCheck2;
             }

@@ -75,6 +75,7 @@ public class MyAlgorithm extends Algorithm {
         Queue<Integer> q = new LinkedList<>();
         isVisited[startNode] = true;
         q.add(startNode);
+
         while (!q.isEmpty()) {
             int curNode = q.poll();
             result.add(curNode);
@@ -93,37 +94,29 @@ public class MyAlgorithm extends Algorithm {
     }
 
     public int bfsDistance(GraphL graph, int startNode, int destNode) {
-        if (startNode == destNode) {
-            return 0;
-        }
-
         boolean[] isVisited = new boolean[graph.numVertices];
+        int[] dist = new int[graph.numVertices];
         Queue<Integer> q = new LinkedList<>();
-        int[] distance = new int[graph.numVertices];
-
         isVisited[startNode] = true;
-        distance[startNode] = 0;
         q.add(startNode);
 
         while (!q.isEmpty()) {
             int curNode = q.poll();
             List<Pair<Integer, Integer>> neighbors = graph.adjacencyList.get(curNode);
             if (neighbors != null) {
-                for (Pair<Integer, Integer> pair : neighbors) {
-                    int adj = pair.first;
+                for (Pair<Integer, Integer> Pair : neighbors) {
+                    int adj = Pair.first;
                     if (!isVisited[adj]) {
                         isVisited[adj] = true;
-                        distance[adj] = distance[curNode] + 1;
+                        dist[adj] = dist[curNode] + 1;
                         if (adj == destNode) {
-                            return distance[adj];
+                            return dist[destNode];
                         }
                         q.add(adj);
                     }
                 }
             }
         }
-
-        // ถ้าไปไม่ถึง destNode
         return -1;
     }
 
@@ -178,7 +171,7 @@ public class MyAlgorithm extends Algorithm {
         return reach[startNode][destNode];
     }
 
-    public int dijkstra1(GraphL graph, int startNode, int destNode) {
+    public int dijkstra(GraphL graph, int startNode, int destNode) {
         boolean[] isVisited = new boolean[graph.numVertices];
         int[] dist = new int[graph.numVertices];
 
@@ -225,11 +218,10 @@ public class MyAlgorithm extends Algorithm {
         return heightLeft - heightRight;
     }
 
-    public BinNode searchNode(BinNode root, int key) {
-        if (root == null || root.node == key) {
+    private BinNode searchNode(BinNode root, int key) {
+        if (root.node == key || root == null) {
             return root;
         }
-
         if (key < root.node) {
             return searchNode(root.leftChild, key);
         } else {
@@ -237,10 +229,10 @@ public class MyAlgorithm extends Algorithm {
         }
     }
 
-    public int height(BinNode root) {
+    private int height(BinNode root) {
         if (root == null) {
             return 0;
         }
-        return Math.max(height(root.leftChild), height(root.rightChild)) + 1;
+        return Math.max(height(root.leftChild), height(root.rightChild));
     }
 }
