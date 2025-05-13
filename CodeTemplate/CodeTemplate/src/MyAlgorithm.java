@@ -95,7 +95,7 @@ public class MyAlgorithm extends Algorithm {
 
     public int bfsDistance(GraphL graph, int startNode, int destNode) {
         boolean[] isVisited = new boolean[graph.numVertices];
-        int[] dist = new int[graph.numVertices];
+        int[] dist = new int[graph.numVertices]; //เปลี่ยนจาก List result ที่เก็บลำดับการเดินเป็น array เก็บระยะแทน
         Queue<Integer> q = new LinkedList<>();
         isVisited[startNode] = true;
         q.add(startNode);
@@ -108,8 +108,8 @@ public class MyAlgorithm extends Algorithm {
                     int adj = Pair.first;
                     if (!isVisited[adj]) {
                         isVisited[adj] = true;
-                        dist[adj] = dist[curNode] + 1;
-                        if (adj == destNode) {
+                        dist[adj] = dist[curNode] + 1; //เพิ่มตรงนี้
+                        if (adj == destNode) { //เพิ่มตรงนี้
                             return dist[destNode];
                         }
                         q.add(adj);
@@ -122,10 +122,10 @@ public class MyAlgorithm extends Algorithm {
 
     public int bfsDistance1(GraphL graph, int startNode, int destNode) {
         boolean[] isVisited = new boolean[graph.numVertices];
-        int[] dist = new int[graph.numVertices];
+        int[] dist = new int[graph.numVertices]; //เปลี่ยนจาก List result ที่เก็บลำดับการเดินเป็น array เก็บระยะแทน
         Queue<Integer> q = new LinkedList<>();
         isVisited[startNode] = true;
-        dist[startNode] = 0;
+        dist[startNode] = 0; // กำหนด node แรกระยะ = 0 เหมือนตอนทำ dijkstra
         q.add(startNode);
 
         while (!q.isEmpty()) {
@@ -134,11 +134,11 @@ public class MyAlgorithm extends Algorithm {
             if (neighbors != null) {
                 for (Pair<Integer, Integer> Pair : neighbors) {
                     int adj = Pair.first;
-                    int weight = Pair.second; // ดึง weight มาใช้
+                    int weight = Pair.second; //เพิ่มตรงนี้ ดึง weight มาใช้
                     if (!isVisited[adj]) {
                         isVisited[adj] = true;
-                        dist[adj] = dist[curNode] + weight; // รวมระยะทางจริง
-                        if (adj == destNode) {
+                        dist[adj] = dist[curNode] + weight; //เพิ่มตรงนี้ รวมระยะทางจริง
+                        if (adj == destNode) { //เพิ่มตรงนี้
                             return dist[destNode];
                         }
                         q.add(adj);
